@@ -1,91 +1,70 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+import React from 'react'
+async function getBlogs() {
+  const res = await fetch(`https://cdn.contentful.com/spaces/${process.env.SPACE_ID}/entries?access_token=${process.env.CONTENTFUL_ACCESS_KEY}&content_type=items`, { cache: 'no-store' });
 
-const inter = Inter({ subsets: ['latin'] })
+  // Recommendation: handle errors
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data');
+  }
 
-export default function Home() {
+  return res.json();
+}
+
+export default async function page() {
+  const blogs = await getBlogs()
+  console.log(blogs);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <div className='grid md:grid-cols-4 grid-cols-1 bg-slate-400 p-5 gap-5'>
+      {blogs.items.map((blog: any) => {
+        return (
+          <div className="p-6 rounded-md shadow-md bg-white text-black" key={blog.sys.id}>
+            {blogs.includes.Asset.map((elem: any) => {
+              return (
+                <div key={blog.fields.image.sys.id}>
+                  {blog.fields.image.sys.id == elem.sys.id ?
+                    <img src={"https:" + elem.fields.file.url} alt="" className="object-cover object-center w-full rounded-md h-72 dark:bg-gray-500" /> : <div></div>}
+                </div>
+              )
+            })}
+
+            <div className="mt-6 mb-2">
+              <h2 className="text-xl font-semibold tracking-wide">{blog.fields.title}</h2>
+            </div>
+            <p className="dark:text-gray-100">{blog.fields.desc}</p>
+            <div className="flex justify-between my-3">
+              <p className="dark:text-gray-100 font-semibold ">Size: {blog.fields.size}</p>
+              <h2 className='font-bold'>{blog.fields.price}</h2>
+            </div>
+          </div>
+        )
+      })}
+
+      {/* <div className="p-6 rounded-md shadow-md bg-white text-black">
+        <img src="/shirt01.webp" alt="" className="object-cover object-center w-full rounded-md h-72 dark:bg-gray-500" />
+        <div className="mt-6 mb-2">
+          <h2 className="text-xl font-semibold tracking-wide">Nam maximus purus</h2>
         </div>
+        <p className="dark:text-gray-100">Mauris et lorem at elit tristique dignissim et ullamcorper elit. In sed feugiat mi. Etiam ut lacinia dui.</p>
+        <h2 className='font-bold'>$ 50.00</h2>
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
+      <div className="p-6 rounded-md shadow-md bg-white text-black">
+        <img src="/shirt01.webp" alt="" className="object-cover object-center w-full rounded-md h-72 dark:bg-gray-500" />
+        <div className="mt-6 mb-2">
+          <h2 className="text-xl font-semibold tracking-wide">Nam maximus purus</h2>
         </div>
+        <p className="dark:text-gray-100">Mauris et lorem at elit tristique dignissim et ullamcorper elit. In sed feugiat mi. Etiam ut lacinia dui.</p>
+        <h2 className='font-bold'>$ 50.00</h2>
       </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <div className="p-6 rounded-md shadow-md bg-white text-black">
+        <img src="/shirt01.webp" alt="" className="object-cover object-center w-full rounded-md h-72 dark:bg-gray-500" />
+        <div className="mt-6 mb-2">
+          <h2 className="text-xl font-semibold tracking-wide">Nam maximus purus</h2>
+        </div>
+        <p className="dark:text-gray-100">Mauris et lorem at elit tristique dignissim et ullamcorper elit. In sed feugiat mi. Etiam ut lacinia dui.</p>
+        <h2 className='font-bold'>$ 50.00</h2>
+      </div> */}
+    </div>
   )
 }
