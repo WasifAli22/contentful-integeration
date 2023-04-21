@@ -13,8 +13,8 @@ export default async function Categorysect() {
                 <div className="grid grid-cols-12">
                     {categories.items.map((categori: any) => {
                         return (
-                            <div className="lg:col-span-4 md:col-span-6 ml-5 col-span-12" key={categori.sys.id}>
-                                <div className="border border-[#c1c2c5] box-border box-cust p-6 hover:bg-[#FFD050] hover:cursor-pointer">
+                            <div className="lg:col-span-4 md:col-span-6 ml-5 mb-4 md:mb-0 col-span-12" key={categori.sys.id}>
+                                <div className="border border-[#c1c2c5] box-border box-cust p-6 transition-all hover:bg-[#FFD050] hover:cursor-pointer">
                                     {categories.includes.Asset.map((elems: any) => {
                                         return (
                                             <div key={categori.fields.catimg.sys.id}>
