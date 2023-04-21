@@ -5,7 +5,7 @@ const nextConfig = {
   },
   env: {
     SPACE_ID: "11y4h8wayk11",
-    CONTENTFUL_ACCESS_KEY: "5sGMR3H3B_DzSAeyhZ_sCz6-50V85nV98D1zo7l7Bt0"
+    CONTENTFUL_ACCESS_KEY: "XG7GcYIgUgWEWdgKV3X1xUdaxn5BVS_uSyF8GU0SQe8"
   },
   images: {
     remotePatterns: [
